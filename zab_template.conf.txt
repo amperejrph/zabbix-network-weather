@@ -1,0 +1,37 @@
+HTMLSTYLE overlib
+
+SCALE DEFAULT 0 0   192 192 192
+SCALE DEFAULT 0 1   255 255 255
+SCALE DEFAULT 1 10   140 0 255
+SCALE DEFAULT 10 25   32 32 255
+SCALE DEFAULT 25 40   0 192 255
+SCALE DEFAULT 40 55   0 240 0
+SCALE DEFAULT 55 70   240 240 0
+SCALE DEFAULT 70 85   255 192 0
+SCALE DEFAULT 85 100   255 0 0
+
+SET key_hidezero_DEFAULT 1
+
+# End of global section
+
+# TEMPLATE-only NODEs:
+NODE Zabbix_node
+	USESCALE none
+	LABELBGCOLOR none
+	LABELOUTLINECOLOR none
+	OVERLIBCAPTION {node:this:label}
+	LABELOFFSET 0 -20
+	TARGET zabbixhost:{node:this:hostname}:
+
+# TEMPLATE-only LINKs:
+LINK Zabbix_link
+	WIDTH 3
+	BANDWIDTH 1000M
+	OVERLIBCAPTION {link:this:hostname_in} ({link:this:itemkey_in}) - {link:this:hostname_out} ({link:this:itemkey_out})
+#	INOVERLIBGRAPH http://zabbix.tts.loc/zab_chart.php?host={link:this:hostname_in}&item={link:this:itemkey_in}&height=50&width=300&legend=0
+#	OUTOVERLIBGRAPH http://zabbix.tts.loc/zab_chart.php?host={link:this:hostname_out}&item={link:this:itemkey_out}&height=50&width=300&legend=0
+	OVERLIBGRAPH http://zabbix.tts.loc/zab_chart.php?host[]={link:this:hostname_in}&item[]={link:this:itemkey_in}&host[]={link:this:hostname_out}&item[]={link:this:itemkey_out}&color[]=009900&color[]=000099&drawtype[]=5&drawtype[]=2&height=50&width=400&legend=1
+#	ININFOURL http://zabbix.tts.loc/zab_chart.php?host={link:this:hostname_in}&item={link:this:itemkey_in}
+#	OUTINFOURL http://zabbix.tts.loc/zab_chart.php?host={link:this:hostname_out}&item={link:this:itemkey_out}
+	INFOURL http://zabbix.tts.loc/zab_chart.php?host[]={link:this:hostname_in}&item[]={link:this:itemkey_in}&host[]={link:this:hostname_out}&item[]={link:this:itemkey_out}&color[]=009900&color[]=000099&drawtype[]=5&drawtype[]=2
+	TARGET zabbixitem:{link:this:hostname_in}:{link:this:itemkey_in}:{link:this:hostname_out}:{link:this:itemkey_out}
